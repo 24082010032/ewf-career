@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Notifikasi extends Model
+{
+    protected $table = 'notifikasi';
+    protected $guarded = [];
+
+    protected $casts = ['sudah_baca' => 'boolean'];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+}

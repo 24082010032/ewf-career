@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Cabang;
+use App\Models\Lamaran;
 use App\Models\Lowongan;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::create([
+            'name' => 'Rina Marlina',
+            'email' => 'ddaimar949+hrd@gmail.com',
+            'password' => 'hrd12345',
+            'role' => 'hrd',
+        ]);
+
+        $pelamar = User::create([
             'name' => 'Damar Inam Prasetyo',
             'email' => 'ddaimar949+pelamar@gmail.com',
             'password' => 'pelamar123',
@@ -44,8 +52,9 @@ class DatabaseSeeder extends Seeder
             ['EWF-SUB-MR-001',  'Magang Analis Riset Pasar Komoditas',   'magang', 'Keuangan & Investasi', 'Magang',    'Menyusun buletin harian komoditas emas, minyak, dan valas.', 'Mahasiswa Smst 5-7', 25],
         ];
 
+        $lowongan = [];
         foreach ($data as [$kode, $judul, $kategori, $dept, $tipe, $desk, $exp, $hari]) {
-            Lowongan::create([
+            $lowongan[] = Lowongan::create([
                 'kode_ref' => $kode,
                 'judul' => $judul,
                 'kategori' => $kategori,
@@ -57,5 +66,21 @@ class DatabaseSeeder extends Seeder
                 'batas_lamaran' => now()->addDays($hari)->toDateString(),
             ]);
         }
+
+        // DATA CONTOH agar dasbor tidak kosong (hapus kalau formulir lamaran sudah jadi)
+        Lamaran::create([
+            'no_registrasi' => 'EWF-' . date('Y') . '-0001',
+            'user_id' => $pelamar->id,
+            'lowongan_id' => $lowongan[1]->id,   // Business Consultant Associate (karier)
+            'cabang_pilihan_id' => $trillium->id,
+            'status' => 'ditinjau',
+        ]);
+        Lamaran::create([
+            'no_registrasi' => 'EWF-' . date('Y') . '-0002',
+            'user_id' => $pelamar->id,
+            'lowongan_id' => $lowongan[3]->id,   // Magang Digital Marketing (magang)
+            'cabang_pilihan_id' => $trillium->id,
+            'status' => 'menunggu',
+        ]);
     }
 }

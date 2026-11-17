@@ -24,9 +24,33 @@ class User extends Authenticatable
         ];
     }
 
-    public function isAdmin(): bool
+    public function isAdmin(): bool   { return $this->role === 'admin'; }
+    public function isHrd(): bool     { return $this->role === 'hrd'; }
+    public function isPelamar(): bool { return $this->role === 'pelamar'; }
+
+    public function roleLabel(): string
     {
-        return $this->role === 'admin';
+        return match ($this->role) {
+            'admin' => 'Admin',
+            'hrd'   => 'HRD / Recruiter',
+            default => 'Pelamar',
+        };
+    }
+
+    /** Dasbor milik role ini. */
+    public function dashboardUrl(): string
+    {
+        return match ($this->role) {
+            'admin' => route('admin.dasbor'),
+            'hrd'   => route('hrd.dasbor'),
+            default => route('pelamar.dasbor'),
+        };
+    }
+
+    /** Halaman tujuan setelah login: pelamar ke Beranda utama, admin/HRD ke dasbornya. */
+    public function landingUrl(): string
+    {
+        return $this->isPelamar() ? route('home') : $this->dashboardUrl();
     }
 
     public function profil(): HasOne

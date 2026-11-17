@@ -12,14 +12,20 @@ return new class extends Migration
             $table->id();
             $table->string('no_registrasi', 30)->unique();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            // Satu tabel dipakai untuk lamaran kerja DAN pendaftaran magang
+            // (jenisnya ditentukan oleh kolom "kategori" di tabel lowongan).
             $table->foreignId('lowongan_id')->constrained('lowongan')->cascadeOnDelete();
             $table->foreignId('cabang_pilihan_id')->nullable()->constrained('cabang')->nullOnDelete();
             $table->enum('kesiapan_mulai', ['Segera', '1 Bulan', 'Awal Bulan Depan'])->default('Segera');
             $table->string('sumber_informasi', 60)->nullable();
-            // tahap: 1 Berkas Masuk, 2 Administrasi, 3 Asesmen, 4 Wawancara, 5 Keputusan Akhir
-            $table->unsignedTinyInteger('tahap')->default(1);
-            $table->enum('status', ['menunggu', 'lolos_administrasi', 'asesmen', 'wawancara', 'diterima', 'ditolak'])
-                  ->default('menunggu');
+            $table->enum('status', [
+                'menunggu',            // pendaftaran baru masuk
+                'ditinjau',            // dokumen sedang diperiksa HRD
+                'lolos_administrasi',  // lolos pemeriksaan dokumen
+                'tidak_lolos',         // tidak memenuhi kriteria
+                'tahap_seleksi',       // mengikuti tahapan seleksi berikutnya
+                'diterima',            // dinyatakan diterima
+            ])->default('menunggu');
             $table->unsignedTinyInteger('skor_evaluasi')->nullable();
             $table->text('catatan_hrd')->nullable();
             $table->timestamps();

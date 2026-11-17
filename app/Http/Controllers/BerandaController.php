@@ -16,7 +16,7 @@ class BerandaController extends Controller
     public function publik()
     {
         if (auth()->check()) {
-            return redirect()->route('home');
+            return redirect(auth()->user()->landingUrl());
         }
 
         return view('beranda', [

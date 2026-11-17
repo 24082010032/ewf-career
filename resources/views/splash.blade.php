@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memuat... - EWF CAREER</title>
-    <noscript><meta http-equiv="refresh" content="3;url={{ route('home') }}"></noscript>
+    <noscript><meta http-equiv="refresh" content="3;url={{ auth()->user()->landingUrl() }}"></noscript>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -43,14 +43,14 @@
         <div class="anim-up mt-6 w-56 h-1.5 rounded-full bg-surface-container overflow-hidden">
             <div class="anim-bar h-full rounded-full bg-tertiary-fixed-dim"></div>
         </div>
-        <p class="anim-up mt-3 text-xs text-slate-400">Menyiapkan beranda Anda...</p>
+        <p class="anim-up mt-3 text-xs text-slate-400">Menyiapkan halaman Anda...</p>
     </div>
 </div>
 
 <script>
     setTimeout(function () {
         document.getElementById('layar').style.opacity = '0';
-        setTimeout(function () { window.location.replace("{{ route('home') }}"); }, 450);
+        setTimeout(function () { window.location.replace("{{ auth()->user()->landingUrl() }}"); }, 450);
     }, 2400);
 </script>
 </body>

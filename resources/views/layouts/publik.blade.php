@@ -94,10 +94,11 @@
 
         <div class="flex items-center gap-2 shrink-0 text-sm">
             @auth
-                <span class="hidden sm:flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-surface-container-low">
+                <a href="{{ auth()->user()->dashboardUrl() }}" class="hidden sm:inline-flex px-4 py-2 rounded-lg bg-surface-container text-primary font-semibold hover:bg-primary hover:text-white transition-colors">Dasbor</a>
+                <a href="{{ route('profil') }}" class="hidden sm:flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container transition-colors" title="Profil saya">
                     <span class="w-8 h-8 rounded-full bg-primary text-white grid place-items-center text-sm font-bold">{{ strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}</span>
                     <span class="font-semibold text-primary">{{ \Illuminate\Support\Str::words(auth()->user()->name, 1, '') }}</span>
-                </span>
+                </a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="px-4 py-2 rounded-lg text-on-tertiary-container font-semibold hover:bg-error-container/60 transition-colors">Keluar</button>
